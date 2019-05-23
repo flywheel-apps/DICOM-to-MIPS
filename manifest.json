@@ -1,0 +1,140 @@
+{
+	"name": "dicom-to-mips",
+	"label": "DICOM to MIPs",
+	"description": "produces MIPs pngs from NIfTI files procuced by Chris Rorden's dcm2niix.",
+	"version": "5",
+	"inputs": {
+		"dcm2niix_input": {
+			"base": "file",
+			"description": "Input file for dcm2niix. This can be either a DICOM archive ('.dicom.zip'), an enhanced DICOM file (gzipped or not, e.g., 'IM0001.gz', 'IM0001'), or a PAR/REC archive ('.parrec.zip')",
+			"type": {
+				"enum": [
+					"dicom",
+					"parrec"
+				]
+			}
+		}
+	},
+	"config": {
+		"anonymize_bids": {
+			"default": "n",
+			"description": "Anonymize BIDS (y/n, default n)",
+			"id": "-ba",
+			"type": "string"
+		},
+		"bids_sidecar": {
+			"default": "n",
+			"description": "Output BIDS sidecar in JSON format. Options are 'y'=yes, 'n'=no, and 'o'=only (whereby no NIfTI file will be generated). Default='n'.",
+			"id": "-b",
+			"type": "string"
+		},
+		"coil_combine": {
+			"default": false,
+			"description": "For sequences with individual coil data, saved as individual volumes, this option will save a NIfTI file with ONLY the combined coil data (i.e., the last volume). Default=False. Warning: We make no effort to check for independent coil data, we simply trust that if you have selcted this option you know what you are asking for.",
+			"type": "boolean"
+		},
+		"compress_nifti": {
+			"default": "y",
+			"description": "Compress output NIfTI file (y/n/3, default y)  [y=pigz, n=no, 3=no,3D]. Note that if option '3' is chosen, the filename flag will be set to '-f %p_%s' to prevent overwriting files",
+			"id": "-z",
+			"type": "string"
+		},
+		"convert_only_series": {
+			"default": "all",
+			"description": "only convert this series number - can be used up to 16 times (default convert all). Provide series numbers in a space-separated list e.g., '12 13'",
+			"id": "-n",
+			"type": "string"
+		},
+		"crop": {
+			"default": "n",
+			"description": "Crop images (y/n, default n)",
+			"id": "-x",
+			"type": "string"
+		},
+		"decompress_dicoms": {
+			"default": false,
+			"description": "Decompress DICOM files prior to conversion. This will perform decompression using gdcmconv and then perform conversion using dcm2niix. (true/false, default=false)",
+			"type": "boolean"
+		},
+		"generate_nifti": {
+			"default": "n",
+			"description": "'y' to generate a nifti file",
+			"type": "string"
+		},
+		"filename": {
+			"default": "%f",
+			"description": "Determine how files are named: filename (%a=antenna (coil) number, %c=comments, %d=description, %e=echo number, %f=folder name, %i=ID of patient, %m=manufacturer, %n=name of patient, %p=protocol, %s=series number, %t=time, %u=acquisition number, %z=sequence name; [default='%f'])",
+			"id": "-f",
+			"type": "string"
+		},
+		"ignore_derived": {
+			"default": "n",
+			"description": "ignore derived, localizer and 2D images (y/n, default n)",
+			"id": "-i",
+			"type": "string"
+		},
+		"ignore_errors": {
+			"default": false,
+			"description": "Ignore dcm2niix errors and exit status (default=false). By default, when dcm2niix exits non-zero, outputs are not preserved. With this option=true, outputs are preserved regardless of dcm2niix exit status.",
+			"type": "boolean"
+		},
+		"lossless_scaling": {
+			"default": "n",
+			"description": "Losslessly scale 16-bit integers to use dynamic range (y/n, default n)",
+			"id": "-l",
+			"type": "string"
+		},
+		"merge2d": {
+			"default": "n",
+			"description": "merge 2D slices from same series regardless of study time, echo, coil, orientation, etc. (y/n, default n)",
+			"id": "-m",
+			"type": "string"
+		},
+		"philips_scaling": {
+			"default": "y",
+			"description": "Philips precise float (not display) scaling (y/n, default y)",
+			"id": "-p",
+			"type": "string"
+		},
+		"single_file_mode": {
+			"default": "n",
+			"description": "single file mode, do not convert other images in folder (y/n, default n)",
+			"id": "-s",
+			"type": "string"
+		},
+		"text_notes_private": {
+			"default": "n",
+			"description": "text notes includes private patient details (y/n, default n)",
+			"id": "-t",
+			"type": "string"
+		},
+		"threshold_percentile": {
+			"default": 98.5,
+			"description": "The percentile at which to threshold maximum values",
+			"type": "number"
+		},
+		"vol3D": {
+			"default": false,
+			"description": "Output 3D uncompressed volumes (true/false, default=false). Note that the filename flag will be set to '-f %p_%s' to prevent overwriting files",
+			"type": "boolean"
+		}
+	},
+	"author": "Flywheel",
+	"maintainer": "Kaleb Fischer \u003ckalebfischer@flywheel.io\u003e",
+	"license": "Other",
+	"source": "",
+	"url": "",
+	"custom": {
+		"docker-image": "scitran/dcm2niix:0.7.8_1.0.20181114",
+		"flywheel": {
+			"gid": 1000,
+			"suite": "SciTran",
+			"uid": 1000
+		},
+		"gear-builder": {
+			"category": "converter",
+			"container": "3f0b3892d5878ce9810b02a1e3bb8c7b7171158845fdd6da3b3aaa3eeb968ffd",
+			"image": "gear-builder-iepfaozmkl-20190410072608"
+		}
+	}
+}
