@@ -2,7 +2,7 @@
 	"name": "dicom-to-mips",
 	"label": "DICOM to MIPs",
 	"description": "produces MIPs pngs from NIfTI files procuced by Chris Rorden's dcm2niix.",
-	"version": "5",
+	"version": "0.0.5",
 	"inputs": {
 		"dcm2niix_input": {
 			"base": "file",
@@ -125,16 +125,9 @@
 	"source": "",
 	"url": "",
 	"custom": {
-		"docker-image": "scitran/dcm2niix:0.7.8_1.0.20181114",
-		"flywheel": {
-			"gid": 1000,
-			"suite": "SciTran",
-			"uid": 1000
-		},
 		"gear-builder": {
 			"category": "converter",
-			"container": "3f0b3892d5878ce9810b02a1e3bb8c7b7171158845fdd6da3b3aaa3eeb968ffd",
-			"image": "gear-builder-iepfaozmkl-20190410072608"
+			"image": "dicom_to_mips:0.0.5"
 		}
 	}
 }
